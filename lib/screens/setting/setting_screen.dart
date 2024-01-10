@@ -31,12 +31,6 @@ class SettingScreen extends ConsumerWidget {
       body: ListView(
         children: [
           ListTile(
-            leading: Icon(Icons.language_outlined, color: primary),
-            title: const Text('Language'),
-            onTap: () {},
-            trailing: const Icon(Icons.arrow_forward_ios_outlined),
-          ),
-          ListTile(
             leading: Icon(Icons.brightness_2_outlined, color: primary),
             title: const Text('Use Dark Mode'),
             onTap: () => _toggleBrightness(ref),
