@@ -8,6 +8,7 @@ import '../models/sd/controlnet_detect_response.dart';
 import '../models/sd/controlnet_model_response.dart';
 import '../models/sd/controlnet_module_response.dart';
 import '../models/sd/sd_model.dart';
+import '../models/sd/sd_sampler.dart';
 import '../models/sd/txt2img_request.dart';
 import '../models/sd/txt2img_response.dart';
 import '../utils/app_logger.dart';
@@ -40,6 +41,11 @@ FutureOr<int> controlnetUnitCount(ControlnetUnitCountRef ref) {
 @Riverpod(keepAlive: true)
 FutureOr<ControlnetModule> controlnetModule(ControlnetModuleRef ref) {
   return ref.watch(sdServiceProvider).getControlnetModule();
+}
+
+@riverpod
+FutureOr<List<SdSampler>> samplers(SamplersRef ref) {
+  return ref.watch(sdServiceProvider).getSamplers();
 }
 
 class SdService {
@@ -178,6 +184,27 @@ class SdService {
         logger.i('preprocess: ${resp.body}');
         final json = jsonDecode(resp.body) as Map<String, dynamic>;
         return ControlnetDetectResponse.fromJson(json);
+      }
+    });
+  }
+
+  Future<List<SdSampler>> getSamplers() {
+    final uri = Uri.parse('$host/sdapi/v1/samplers');
+    logger.i('getSamplers: $uri');
+
+    return http.get(uri).then((resp) {
+      logger.i('getSamplers: ${resp.statusCode}');
+
+      if (resp.statusCode == 200) {
+        final list = jsonDecode(resp.body) as List<dynamic>;
+
+        final samplers = list
+            .map((e) => SdSampler.fromJson(e as Map<String, dynamic>))
+            .toList();
+
+        return samplers;
+      } else {
+        throw Exception('Failed to load models');
       }
     });
   }

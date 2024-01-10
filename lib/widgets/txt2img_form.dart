@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/sd/sd_sampler.dart';
 import '../service/global_controller_providers.dart';
+import '../service/sd_service_provider.dart';
+import 'loading_widget.dart';
 import 'slider_tile.dart';
 
 typedef DoubleCallback = void Function(double value);
 
 class Txt2ImgForm extends StatelessWidget {
   const Txt2ImgForm({
+    required this.selectedSampler,
+    required this.onSamplerChanged,
     required this.cfgScale,
     required this.onCfgScaleChanged,
     required this.steps,
@@ -30,6 +35,9 @@ class Txt2ImgForm extends StatelessWidget {
 
   final String? negativePrompt;
   final VoidCallback? onSortNegativePrompt;
+
+  final SdSampler? selectedSampler;
+  final void Function(SdSampler? sampler) onSamplerChanged;
 
   final int cfgScale;
   final DoubleCallback onCfgScaleChanged;
@@ -86,6 +94,31 @@ class Txt2ImgForm extends StatelessWidget {
               ),
             ),
           ),
+        ),
+
+        const SizedBox(height: 8),
+
+        Consumer(
+          builder: (_, ref, __) => ref.watch(samplersProvider).when(
+                data: (samplers) => DropdownButtonFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    labelText: 'Sampler',
+                  ),
+                  value: selectedSampler,
+                  onChanged: onSamplerChanged,
+                  items: [
+                    for (final sampler in samplers)
+                      DropdownMenuItem(
+                        value: sampler,
+                        child: Text(sampler.name),
+                      ),
+                  ],
+                ),
+                error: (e, s) => Text('Error: $e'),
+                loading: () => const LoadingWidget(),
+              ),
         ),
 
         const SizedBox(height: 16),

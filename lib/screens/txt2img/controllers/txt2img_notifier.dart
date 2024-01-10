@@ -2,6 +2,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/sd/sd_model.dart';
+import '../../../models/sd/sd_sampler.dart';
 import '../../../models/sd/txt2img_request.dart';
 import '../../../models/sd/weighted_prompt.dart';
 import '../../../service/global_controller_providers.dart';
@@ -197,17 +198,22 @@ class Txt2ImgStateController extends _$Txt2ImgStateController {
       return;
     }
 
+    if (state.selectedSampler == null) {
+      logger.e('No sampler selected');
+      showToast('No sampler selected', position: ToastPosition.bottom);
+      return;
+    }
+
     // Check if any controlnet is enabled
     final controlnetRequest = ref
         .read(txt2imgControlnetControllerProvider.notifier)
         .controlnetRequest();
 
-    // TODO(@fewling): use override_settings to set the model
-    // TODO(@fewling): Show menu to select sampler
+    // TODO: use override_settings to set the model
     final request = Txt2ImgRequest(
       prompt: prompt,
       negativePrompt: negPrompt,
-      samplerName: 'DPM++ 2S a Karras',
+      samplerName: state.selectedSampler!.name,
       batchSize: state.batchSize,
       cfgScale: state.cfgScale,
       height: state.height,
@@ -230,5 +236,9 @@ class Txt2ImgStateController extends _$Txt2ImgStateController {
       state = state.copyWith(isInferring: false);
       showToast('Error: $e', position: ToastPosition.bottom);
     }
+  }
+
+  void updateSampler(SdSampler? sampler) {
+    state = state.copyWith(selectedSampler: sampler);
   }
 }

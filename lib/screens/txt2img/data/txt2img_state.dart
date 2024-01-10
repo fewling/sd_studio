@@ -3,6 +3,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../models/sd/sd_model.dart';
+import '../../../models/sd/sd_sampler.dart';
 
 part 'txt2img_state.freezed.dart';
 part 'txt2img_state.g.dart';
@@ -13,6 +14,7 @@ class Txt2ImgState with _$Txt2ImgState {
     @Default('http://127.0.0.1:7860/') String host,
     @Default(<SdModel>[]) List<SdModel> sdModels,
     @Default(null) SdModel? selectedModel,
+    @Default(null) SdSampler? selectedSampler,
 
     /// How many diffusion steps to take to generate image
     /// (more is better generally, with diminishing returns after 50)

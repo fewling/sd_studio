@@ -97,6 +97,8 @@ class Txt2ImgView extends ConsumerWidget {
           Txt2ImgForm(
             onSortPrompt: Scaffold.of(context).openEndDrawer,
             onSortNegativePrompt: Scaffold.of(context).openEndDrawer,
+            selectedSampler: state.selectedSampler,
+            onSamplerChanged: notifier.updateSampler,
             cfgScale: state.cfgScale,
             onCfgScaleChanged: notifier.updateGuidanceScale,
             steps: state.steps,
