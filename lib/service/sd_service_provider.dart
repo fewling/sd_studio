@@ -78,10 +78,15 @@ class SdService {
     final uri = Uri.parse('$host/sdapi/v1/txt2img');
     logger.i('txt2Img: $uri');
 
+    final payload = request.toJson();
+    if (request.alwaysOnScripts == null) {
+      payload.remove('alwayson_scripts');
+    }
+
     final resp = await http.post(
       uri,
       headers: _headers,
-      body: jsonEncode(request.toJson()),
+      body: jsonEncode(payload),
     );
     logger.i('txt2Img: ${resp.statusCode}');
 
