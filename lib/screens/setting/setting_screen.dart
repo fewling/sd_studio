@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../service/app_info_provider.dart';
 import '../../service/preference_provider.dart';
@@ -19,14 +20,14 @@ class SettingScreen extends ConsumerWidget {
     final appInfoAsync = ref.watch(appInfoProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: const BaseMobileDrawerButton(),
-        title: const Row(
-          children: [
-            Text('Settings'),
-            SizedBox(width: 4),
-          ],
+      appBar: getValueForScreenType(
+        context: context,
+        mobile: AppBar(
+          leading: const BaseMobileDrawerButton(),
+          title: const Text('Settings'),
         ),
+        tablet: AppBar(title: const Text('Settings')),
+        desktop: AppBar(title: const Text('Settings')),
       ),
       body: ListView(
         children: [
