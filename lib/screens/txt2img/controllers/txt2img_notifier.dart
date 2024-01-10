@@ -1,16 +1,16 @@
 import 'package:oktoast/oktoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../models/sd/sd_model.dart';
-import '../../models/sd/txt2img_request.dart';
-import '../../models/sd/weighted_prompt.dart';
-import '../../service/global_controller_providers.dart';
-import '../../service/preference_provider.dart';
-import '../../service/sd_response_provider.dart';
-import '../../service/sd_service_provider.dart';
-import '../../utils/app_logger.dart';
+import '../../../models/sd/sd_model.dart';
+import '../../../models/sd/txt2img_request.dart';
+import '../../../models/sd/weighted_prompt.dart';
+import '../../../service/global_controller_providers.dart';
+import '../../../service/preference_provider.dart';
+import '../../../service/sd_response_provider.dart';
+import '../../../service/sd_service_provider.dart';
+import '../../../utils/app_logger.dart';
+import '../data/txt2img_state.dart';
 import 'txt2img_controlnet_notifier.dart';
-import 'txt2img_state.dart';
 
 part 'txt2img_notifier.g.dart';
 

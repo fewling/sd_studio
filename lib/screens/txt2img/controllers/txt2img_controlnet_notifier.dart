@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../models/sd/controlnet_detect_request.dart';
-import '../../models/sd/controlnet_request.dart';
-import '../../service/sd_service_provider.dart';
-import '../../utils/app_logger.dart';
-import 'txt2img_controlnet_state.dart';
+import '../../../models/sd/controlnet_detect_request.dart';
+import '../../../models/sd/controlnet_request.dart';
+import '../../../service/sd_service_provider.dart';
+import '../../../utils/app_logger.dart';
+import '../data/txt2img_controlnet_state.dart';
 
 part 'txt2img_controlnet_notifier.g.dart';
 

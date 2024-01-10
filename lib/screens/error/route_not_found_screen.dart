@@ -26,6 +26,6 @@ class RouteNotFoundScreen extends StatelessWidget {
   }
 
   void _pop(BuildContext context) {
-    context.canPop() ? context.pop() : context.goNamed(Location.home.name);
+    context.canPop() ? context.pop() : context.goNamed(Location.txt2img.name);
   }
 }

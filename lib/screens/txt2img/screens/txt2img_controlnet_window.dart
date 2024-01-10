@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../service/sd_service_provider.dart';
-import '../../widgets/error_info.dart';
-import '../../widgets/loading_widget.dart';
-import '../../widgets/slider_tile.dart';
-import 'txt2img_controlnet_notifier.dart';
+import '../../../service/sd_service_provider.dart';
+import '../../../widgets/error_info.dart';
+import '../../../widgets/loading_widget.dart';
+import '../../../widgets/slider_tile.dart';
+import '../controllers/txt2img_controlnet_notifier.dart';
 
 class Txt2ImgControlnetWindow extends StatelessWidget {
   const Txt2ImgControlnetWindow({super.key});

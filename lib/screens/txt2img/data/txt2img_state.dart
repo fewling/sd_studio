@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../models/sd/sd_model.dart';
+import '../../../models/sd/sd_model.dart';
 
 part 'txt2img_state.freezed.dart';
 part 'txt2img_state.g.dart';

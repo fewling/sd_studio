@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../models/sd/controlnet_request.dart';
+import '../../../models/sd/controlnet_request.dart';
 
 part 'txt2img_controlnet_state.freezed.dart';
 

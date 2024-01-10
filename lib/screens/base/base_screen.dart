@@ -8,7 +8,7 @@ import 'base_mobile.dart';
 
 const kBaseDrawerLocations = [
   DrawerLocation(
-    Location.home,
+    Location.txt2img,
     Icons.home_outlined,
     Icons.home,
   ),

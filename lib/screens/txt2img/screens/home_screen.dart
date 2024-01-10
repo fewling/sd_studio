@@ -6,18 +6,18 @@ import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import '../../service/global_controller_providers.dart';
-import '../../service/sd_response_provider.dart';
-import '../../service/sd_service_provider.dart';
-import '../../widgets/base_mobile_drawer_button.dart';
-import '../../widgets/loading_widget.dart';
-import '../../widgets/prompt_weight_drawer.dart';
-import '../../widgets/txt2img_form.dart';
+import '../../../service/global_controller_providers.dart';
+import '../../../service/sd_response_provider.dart';
+import '../../../service/sd_service_provider.dart';
+import '../../../widgets/base_mobile_drawer_button.dart';
+import '../../../widgets/loading_widget.dart';
+import '../../../widgets/prompt_weight_drawer.dart';
+import '../../../widgets/txt2img_form.dart';
+import '../controllers/txt2img_notifier.dart';
 import 'txt2img_controlnet_window.dart';
-import 'txt2img_notifier.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+class Txt2ImgScreen extends ConsumerWidget {
+  const Txt2ImgScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,80 +27,57 @@ class HomeScreen extends ConsumerWidget {
       const RefreshModelsButton(),
       const EditHostIconButton(),
     ];
-    const tabBar = TabBar(
-      tabs: [
-        Tab(
-          text: 'Text to Image',
-          icon: Icon(Icons.text_fields_outlined),
-        ),
-        Tab(
-          text: 'Image to Image',
-          icon: Icon(Icons.image_outlined),
-        ),
-      ],
-    );
 
     final mobileAppBar = AppBar(
       leading: leading,
-      title: const Text('Home'),
+      title: const Text('Txt2Img'),
       actions: actions,
-      bottom: tabBar,
     );
 
     final desktopAppBar = AppBar(
-      title: const Text('Home'),
+      title: const Text('Txt2Img'),
       actions: actions,
-      bottom: tabBar,
     );
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: getValueForScreenType(
-          context: context,
-          mobile: mobileAppBar,
-          tablet: desktopAppBar,
-          desktop: desktopAppBar,
-        ),
-        body: const TabBarView(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Txt2ImgView(),
-            ),
-            Text('Image to Image'),
-          ],
-        ),
-        endDrawer: PromptWeightDrawer(
-          prompt: ref
-              .watch(promptStreamProvider)
-              .maybeWhen(data: (prompt) => prompt, orElse: () => ''),
-          negativePrompt: ref
-              .watch(negPromptStreamProvider)
-              .maybeWhen(data: (prompt) => prompt, orElse: () => ''),
-          onPromptIncrease: ref
-              .read(txt2ImgStateControllerProvider.notifier)
-              .increasePromptWeight,
-          onPromptDecrease: ref
-              .read(txt2ImgStateControllerProvider.notifier)
-              .decreasePromptWeight,
-          onPromptDelete: ref
-              .read(txt2ImgStateControllerProvider.notifier)
-              .deletePromptWeight,
-          onNegativePromptIncrease: ref
-              .read(txt2ImgStateControllerProvider.notifier)
-              .increaseNegPromptWeight,
-          onNegativePromptDecrease: ref
-              .read(txt2ImgStateControllerProvider.notifier)
-              .decreaseNegPromptWeight,
-          onNegativePromptDelete: ref
-              .read(txt2ImgStateControllerProvider.notifier)
-              .deleteNegPromptWeight,
-        ),
-        floatingActionButton: InferenceFAB(
-          onPressed:
-              ref.read(txt2ImgStateControllerProvider.notifier).inference,
-        ),
+    return Scaffold(
+      appBar: getValueForScreenType(
+        context: context,
+        mobile: mobileAppBar,
+        tablet: desktopAppBar,
+        desktop: desktopAppBar,
+      ),
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Txt2ImgView(),
+      ),
+      endDrawer: PromptWeightDrawer(
+        prompt: ref
+            .watch(promptStreamProvider)
+            .maybeWhen(data: (prompt) => prompt, orElse: () => ''),
+        negativePrompt: ref
+            .watch(negPromptStreamProvider)
+            .maybeWhen(data: (prompt) => prompt, orElse: () => ''),
+        onPromptIncrease: ref
+            .read(txt2ImgStateControllerProvider.notifier)
+            .increasePromptWeight,
+        onPromptDecrease: ref
+            .read(txt2ImgStateControllerProvider.notifier)
+            .decreasePromptWeight,
+        onPromptDelete: ref
+            .read(txt2ImgStateControllerProvider.notifier)
+            .deletePromptWeight,
+        onNegativePromptIncrease: ref
+            .read(txt2ImgStateControllerProvider.notifier)
+            .increaseNegPromptWeight,
+        onNegativePromptDecrease: ref
+            .read(txt2ImgStateControllerProvider.notifier)
+            .decreaseNegPromptWeight,
+        onNegativePromptDelete: ref
+            .read(txt2ImgStateControllerProvider.notifier)
+            .deleteNegPromptWeight,
+      ),
+      floatingActionButton: InferenceFAB(
+        onPressed: ref.read(txt2ImgStateControllerProvider.notifier).inference,
       ),
     );
   }

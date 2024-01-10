@@ -6,11 +6,11 @@ import 'package:go_router/go_router.dart';
 
 import '../screens/base/base_screen.dart';
 import '../screens/error/route_not_found_screen.dart';
-import '../screens/home/home_screen.dart';
 import '../screens/setting/setting_screen.dart';
+import '../screens/txt2img/screens/home_screen.dart';
 
 enum Location {
-  home('/home'),
+  txt2img('/home'),
   setting('/setting'),
   ;
 
@@ -26,7 +26,7 @@ final routerProvider = Provider(
 
     return GoRouter(
       navigatorKey: rootKey,
-      initialLocation: Location.home.path,
+      initialLocation: Location.txt2img.path,
       errorBuilder: (context, state) => const RouteNotFoundScreen(),
       routes: [
         ShellRoute(
@@ -35,10 +35,10 @@ final routerProvider = Provider(
           routes: [
             GoRoute(
               parentNavigatorKey: shellKey,
-              path: Location.home.path,
-              name: Location.home.name,
+              path: Location.txt2img.path,
+              name: Location.txt2img.name,
               pageBuilder: (context, state) =>
-                  const MaterialPage(child: HomeScreen()),
+                  const MaterialPage(child: Txt2ImgScreen()),
             ),
             GoRoute(
               parentNavigatorKey: shellKey,
