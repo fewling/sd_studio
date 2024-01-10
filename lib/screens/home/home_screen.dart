@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../service/global_controller_providers.dart';
 import '../../service/sd_response_provider.dart';
@@ -20,31 +21,46 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.watch(txt2ImgStateControllerProvider.notifier);
+    const leading = BaseMobileDrawerButton();
+    final actions = [
+      const ModelsPopupButton(),
+      const RefreshModelsButton(),
+      const EditHostIconButton(),
+    ];
+    const tabBar = TabBar(
+      tabs: [
+        Tab(
+          text: 'Text to Image',
+          icon: Icon(Icons.text_fields_outlined),
+        ),
+        Tab(
+          text: 'Image to Image',
+          icon: Icon(Icons.image_outlined),
+        ),
+      ],
+    );
+
+    final mobileAppBar = AppBar(
+      leading: leading,
+      title: const Text('Home'),
+      actions: actions,
+      bottom: tabBar,
+    );
+
+    final desktopAppBar = AppBar(
+      title: const Text('Home'),
+      actions: actions,
+      bottom: tabBar,
+    );
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          leading: const BaseMobileDrawerButton(),
-          title: const Text('Home'),
-          actions: const [
-            ModelsPopupButton(),
-            RefreshModelsButton(),
-            EditHostIconButton(),
-          ],
-          bottom: const TabBar(
-            tabs: [
-              Tab(
-                text: 'Text to Image',
-                icon: Icon(Icons.text_fields_outlined),
-              ),
-              Tab(
-                text: 'Image to Image',
-                icon: Icon(Icons.image_outlined),
-              ),
-            ],
-          ),
+        appBar: getValueForScreenType(
+          context: context,
+          mobile: mobileAppBar,
+          tablet: desktopAppBar,
+          desktop: desktopAppBar,
         ),
         body: const TabBarView(
           children: [
@@ -62,15 +78,28 @@ class HomeScreen extends ConsumerWidget {
           negativePrompt: ref
               .watch(negPromptStreamProvider)
               .maybeWhen(data: (prompt) => prompt, orElse: () => ''),
-          onPromptIncrease: notifier.increasePromptWeight,
-          onPromptDecrease: notifier.decreasePromptWeight,
-          onPromptDelete: notifier.deletePromptWeight,
-          onNegativePromptIncrease: notifier.increaseNegPromptWeight,
-          onNegativePromptDecrease: notifier.decreaseNegPromptWeight,
-          onNegativePromptDelete: notifier.deleteNegPromptWeight,
+          onPromptIncrease: ref
+              .read(txt2ImgStateControllerProvider.notifier)
+              .increasePromptWeight,
+          onPromptDecrease: ref
+              .read(txt2ImgStateControllerProvider.notifier)
+              .decreasePromptWeight,
+          onPromptDelete: ref
+              .read(txt2ImgStateControllerProvider.notifier)
+              .deletePromptWeight,
+          onNegativePromptIncrease: ref
+              .read(txt2ImgStateControllerProvider.notifier)
+              .increaseNegPromptWeight,
+          onNegativePromptDecrease: ref
+              .read(txt2ImgStateControllerProvider.notifier)
+              .decreaseNegPromptWeight,
+          onNegativePromptDelete: ref
+              .read(txt2ImgStateControllerProvider.notifier)
+              .deleteNegPromptWeight,
         ),
         floatingActionButton: InferenceFAB(
-          onPressed: notifier.inference,
+          onPressed:
+              ref.read(txt2ImgStateControllerProvider.notifier).inference,
         ),
       ),
     );
